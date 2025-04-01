@@ -53,6 +53,13 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
+			If (words.length < 2) return;
+			for(int i =0; i< words.length-1; i++){
+				BIGRAM.set(words[i], words[i+1]);
+				context.write(BIGRAM, ONE);
+				BIGRAM.set(words[i], "*");
+				context.write(BIGRAM, ONE);
+			}
 		}
 	}
 
@@ -71,6 +78,13 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
+			int total =0;
+			for (IntWritable i:values){
+				total += i.get();
+			}
+			VALUE.set(total);
+			context.write(key, VALUE);
+			
 		}
 	}
 	
@@ -84,6 +98,12 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
+			int total =0;
+			for (IntWritable i:values){
+				total += i.get();
+			}
+			SUM.set(total);
+			context.write(key, SUM);
 		}
 	}
 
