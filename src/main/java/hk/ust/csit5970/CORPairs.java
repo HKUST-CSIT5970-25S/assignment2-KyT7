@@ -53,6 +53,16 @@ public class CORPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
+			Set<String> wordsRow = new HashSet<>();
+			while (doc_tokenizer.hasMoreTokens()) {
+    				String wd = doc_tokenizer.nextToken().toLowerCase();
+    				if (!wordsRow.contains(wd)) {
+        				context.write(new Text(wd), new IntWritable(1));
+        				wordsRow.add(wd);}}
+			wordsRow.clear();
+			doc_tokenizer = new StringTokenizer(clean_doc);
+			while (doc_tokenizer.hasMoreTokens()) {
+    				context.write(new Text(doc_tokenizer.nextToken().toLowerCase()), new IntWritable(1));}
 		}
 	}
 
@@ -66,6 +76,10 @@ public class CORPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
+			int total = 0;
+			for (IntWritable i: values) {
+    				total += i.get();}
+			context.write(key, new IntWritable(total));
 		}
 	}
 
@@ -81,6 +95,18 @@ public class CORPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
+			Set<String> wds = new HashSet<>();
+			while (doc_tokenizer.hasMoreTokens()) {
+    				wds.add(doc_tokenizer.nextToken().toLowerCase());}
+			List<String> wdLt = new ArrayList<>(wds);
+			for (int i = 0; i< wdLt.size(); i++) {
+    				for (int j = i+1; j< wdLt.size(); j++) {
+        				String wd1 = wdLt.get(i);
+        				String wd2 = wdLt.get(j);
+        				if (wd1.compareTo(wd2) < 0) {
+    						context.write(new PairOfStrings(wd1, wd2), new IntWritable(1));
+					}else{
+    						context.write(new PairOfStrings(wd2, wd1), new IntWritable(1));}}}
 		}
 	}
 
@@ -93,6 +119,10 @@ public class CORPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
+			int total = 0;
+			for (IntWritable i : values) {
+    				total += i.get();}
+			context.write(key, new IntWritable(total));
 		}
 	}
 
@@ -145,6 +175,13 @@ public class CORPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
+			int total = 0;
+			for (IntWritable i : values) {
+    				total += i.get();}
+			Integer frqR = word_total_map.get(key.getRightElement());
+			Integer frqL = word_total_map.get(key.getLeftElement());
+			if (frqL != null && frqR != null) {
+    				context.write(key, new DoubleWritable((double)total / (frqL * frqR)));}
 		}
 	}
 
