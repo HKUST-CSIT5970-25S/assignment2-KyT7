@@ -192,8 +192,8 @@ public class CORStripes extends Configured implements Tool {
 			if (frq1 != null) {
     				for (Entry<Writable, Writable> entry : comb.entrySet()) {
         				String wd2 = ((Text)entry.getKey()).toString();
-       	 				Integer frqB = word_total_map.get(wd2);
-        				if (freqB != null && wordA.compareTo(wordB) < 0) {
+       	 				Integer frq2 = word_total_map.get(wd2);
+        				if (frq2 != null && wd1.compareTo(wd2) < 0) {
             					double cor = ((IntWritable)entry.getValue()).get() / (double)(frq1 * frq2);
             					context.write(new PairOfStrings(wd1, wd2), new DoubleWritable(cor));}}}}
 	}
