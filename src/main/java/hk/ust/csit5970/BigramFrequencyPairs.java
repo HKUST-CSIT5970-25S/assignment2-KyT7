@@ -53,7 +53,7 @@ public class BigramFrequencyPairs extends Configured implements Tool {
 			/*
 			 * TODO: Your implementation goes here.
 			 */
-			If (words.length < 2) return;
+			if (words.length < 2) return;
 			for(int i =0; i< words.length-1; i++){
 				BIGRAM.set(words[i], words[i+1]);
 				context.write(BIGRAM, ONE);
