@@ -89,13 +89,13 @@ public class BigramFrequencyStripes extends Configured implements Tool {
         				int temp = entry.getValue();
         				SUM_STRIPES.increment(n, temp);
         				total += temp;}}
-			BIGRAM.setLeftElement(key.toString());
 			for (Map.Entry<String, Integer> entry : SUM_STRIPES.entrySet()) {
-    				FREQ.set(entry.getValue() / total);
-				BIGRAM.setRightElement(entry.getKey());
-    				context.write(BIGRAM, FREQ);}
+    				PairOfStrings bigram = new PairOfStrings(key.toString(), entry.getKey());
+				FREQ.set(entry.getValue() / total);
+				BIGRAM.setRightElement(entry.getKey()/total);
+    				context.write(bigram, FREQ);}
 			FREQ.set(total);
-			BIGRAM.setRightElement("*");
+			PairOfStrings totalKey = new PairOfStrings(key.toString(), "*");
 			context.write(BIGRAM, FREQ);}
 	}
 
