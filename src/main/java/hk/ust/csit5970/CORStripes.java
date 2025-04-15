@@ -116,7 +116,7 @@ public class CORStripes extends Configured implements Tool {
 			 */
 			MapWritable comb = new MapWritable();
 			for (MapWritable stripe : values) {
-    				for (Entry<Writable, Writable> entry : stripe.entrySet()) {
+    				for (Map.Entry<Writable, Writable> entry : stripe.entrySet()) {
         				IntWritable temp = (IntWritable)comb.get(entry.getKey());
         				IntWritable inputVal = (IntWritable)entry.getValue();
 					if (temp == null) {
@@ -179,7 +179,7 @@ public class CORStripes extends Configured implements Tool {
 			 */
 			MapWritable comb = new MapWritable();
 			for (MapWritable stripe : values) {
-    				for (Entry<Writable, Writable> entry : stripe.entrySet()) {
+    				for (Map.Entry<Writable, Writable> entry : stripe.entrySet()) {
         				IntWritable temp = (IntWritable)comb.get(entry.getKey());
         				IntWritable inputVal = (IntWritable)entry.getValue();
 					int i = inputVal.get();
@@ -188,9 +188,9 @@ public class CORStripes extends Configured implements Tool {
 					} else {
     						comb.put(entry.getKey(), new IntWritable(temp.get() + i));}}}
 			String wd1 = key.toString();
-			Integer frq1 = word_total_map.get(wordA);
+			Integer frq1 = word_total_map.get(word1);
 			if (frq1 != null) {
-    				for (Entry<Writable, Writable> entry : comb.entrySet()) {
+    				for (Map.Entry<Writable, Writable> entry : comb.entrySet()) {
         				String wd2 = ((Text)entry.getKey()).toString();
        	 				Integer frq2 = word_total_map.get(wd2);
         				if (frq2 != null && wd1.compareTo(wd2) < 0) {
